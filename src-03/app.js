@@ -6,7 +6,8 @@ const path = require('path')
 class UserController {
   static createUser(req, res) {
     try {
-      const newUser = UserService.createUser(req.body)
+      const body = JSON.parse(req.body)
+      const newUser = UserService.createUser(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify(newUser))
     } catch (error) {
@@ -53,7 +54,8 @@ class UserController {
 class TaskController {
   static createTask(req, res) {
     try {
-      const newTask = TaskService.createTask(req.body)
+      const body = JSON.parse(req.body)
+      const newTask = TaskService.createTask(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify(newTask))
     } catch (error) {
@@ -116,7 +118,8 @@ class TaskController {
 class ListController {
   static createList(req, res) {
     try {
-      const newList = ListService.createList(req.body)
+      const body = JSON.parse(req.body)
+      const newList = ListService.createList(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify(newList))
     } catch (error) {
@@ -309,43 +312,18 @@ const server = http.createServer((req, res) => {
         case 'users':
           switch (action) {
             case 'register':
-              if (req.method === 'POST') {
-                if (req.headers['content-type'] === 'application/json') {
-                  try {
-                    body = JSON.parse(body)
-                  } catch (error) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' })
-                    res.end(JSON.stringify({ message: 'Invalid JSON' }))
-                    return
-                  }
-                }
-                UserController.createUser({ body }, res)
-              } else {
-                routeNotFound(res)
-              }
+              UserController.createUser({ body }, res)
               break
             case 'user':
               switch (req.method) {
                 case 'GET':
-                  if (id) {
-                    UserController.retrieveUser({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) UserController.retrieveUser({ params: { id } }, res)
                   break
                 case 'PUT':
-                  if (id) {
-                    UserController.updateUser({ params: { id }, body }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) UserController.updateUser({ params: { id }, body }, res)
                   break
                 case 'DELETE':
-                  if (id) {
-                    UserController.deleteUser({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) UserController.deleteUser({ params: { id } }, res)
                   break
                 default:
                   routeNotFound(res)
@@ -358,50 +336,22 @@ const server = http.createServer((req, res) => {
         case 'tasks':
           switch (action) {
             case 'create':
-              if (req.method === 'POST') {
-                if (req.headers['content-type'] === 'application/json') {
-                  try {
-                    body = JSON.parse(body)
-                  } catch (error) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' })
-                    res.end(JSON.stringify({ message: 'Invalid JSON' }))
-                    return
-                  }
-                }
-                TaskController.createTask({ body }, res)
-              } else {
-                routeNotFound(res)
-              }
+              TaskController.createTask({ body }, res)
               break
             case 'task':
               switch (req.method) {
                 case 'GET':
-                  if (id) {
-                    TaskController.retrieveTask({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) TaskController.retrieveTask({ params: { id } }, res)
                   break
                 case 'PUT':
-                  if (id) {
-                    TaskController.updateTask({ params: { id }, body }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) TaskController.updateTask({ params: { id }, body }, res)
                   break
                 case 'DELETE':
-                  if (id) {
-                    TaskController.deleteTask({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) TaskController.deleteTask({ params: { id } }, res)
                   break
                 case 'PATCH':
-                  if (id && operation === 'complete') {
+                  if (id && operation === 'complete')
                     TaskController.completeTask({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
                   break
                 default:
                   routeNotFound(res)
@@ -414,43 +364,18 @@ const server = http.createServer((req, res) => {
         case 'lists':
           switch (action) {
             case 'create':
-              if (req.method === 'POST') {
-                if (req.headers['content-type'] === 'application/json') {
-                  try {
-                    body = JSON.parse(body)
-                  } catch (error) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' })
-                    res.end(JSON.stringify({ message: 'Invalid JSON' }))
-                    return
-                  }
-                }
-                ListController.createList({ body }, res)
-              } else {
-                routeNotFound(res)
-              }
+              ListController.createList({ body }, res)
               break
             case 'list':
               switch (req.method) {
                 case 'GET':
-                  if (id) {
-                    ListController.retrieveList({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) ListController.retrieveList({ params: { id } }, res)
                   break
                 case 'PUT':
-                  if (id) {
-                    ListController.updateList({ params: { id }, body }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) ListController.updateList({ params: { id }, body }, res)
                   break
                 case 'DELETE':
-                  if (id) {
-                    ListController.deleteList({ params: { id } }, res)
-                  } else {
-                    routeNotFound(res)
-                  }
+                  if (id) ListController.deleteList({ params: { id } }, res)
                   break
                 default:
                   routeNotFound(res)
