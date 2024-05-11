@@ -1,0 +1,679 @@
+{
+	"info": {
+		"_postman_id": "fe0c8088-9575-4813-8112-23f77e3c3dee",
+		"name": "todo-apps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32799413"
+	},
+	"item": [
+		{
+			"name": "create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected user data\", function () {",
+							"    pm.response.to.have.status(201);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.username).to.equal(\"user4\");",
+							"    pm.expect(responseBody.fullname).to.equal(\"Gillian Beck\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.32.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user4\",\n    \"password\": \"pass4\",\n    \"fullname\": \"Gillian Beck\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/users/register",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected user data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.userId).to.equal(\"U1\");",
+							"    pm.expect(responseBody.username).to.equal(\"user1\");",
+							"    pm.expect(responseBody.fullname).to.equal(\"John Doe\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/users/user/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "U1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected updated user data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.username).to.equal(\"user2\");",
+							"    pm.expect(responseBody.fullname).to.equal(\"James Dean\");",
+							"    pm.expect(responseBody.isAdmin).to.equal(false);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullname\": \"James Dean\",\n    \"isAdmin\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/users/user/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "U2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected message for user deletion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.message).to.eql(\"User deleted successfully\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/users/user/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"user",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "U3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected task data\", function () {",
+							"    pm.response.to.have.status(201);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listId).to.equal(\"L1\");",
+							"    pm.expect(responseBody.userId).to.equal(\"U1\");",
+							"    pm.expect(responseBody.taskName).to.equal(\"Buy eggs\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listId\": \"L1\",\n    \"userId\": \"U1\",\n    \"taskName\": \"Buy eggs\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/tasks/create",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"tasks",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected data for task completion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.taskId).to.equal(\"T5\");",
+							"    pm.expect(responseBody.listId).to.equal(\"L3\");",
+							"    pm.expect(responseBody.userId).to.equal(\"U2\");",
+							"    pm.expect(responseBody.taskName).to.equal(\"Run Lola, Run\");",
+							"    pm.expect(responseBody.isComplete).to.equal(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/tasks/task/:id/complete",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"tasks",
+						"task",
+						":id",
+						"complete"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "T5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected task data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.taskId).to.equal(\"T1\");",
+							"    pm.expect(responseBody.listId).to.equal(\"L1\");",
+							"    pm.expect(responseBody.userId).to.equal(\"U1\");",
+							"    pm.expect(responseBody.taskName).to.equal(\"Buy milk\");",
+							"    pm.expect(responseBody.isComplete).to.equal(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/tasks/task/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"tasks",
+						"task",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "T1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected updated task data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listId).to.eql(\"L2\");",
+							"    pm.expect(responseBody.taskName).to.eql(\"Buy more eggs\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listId\": \"L2\",\n    \"taskName\": \"Buy more eggs\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/tasks/task/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"tasks",
+						"task",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "T2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected message for task deletion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.message).to.eql(\"Task deleted successfully\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/tasks/task/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"tasks",
+						"task",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "T3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected updated list data\", function () {",
+							"    pm.response.to.have.status(201);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listId).to.equal(\"L4\");",
+							"    pm.expect(responseBody.listName).to.equal(\"Another list\");",
+							"    pm.expect(responseBody.isShared).to.equal(false);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"listName\": \"Another list\",\n      \"isShared\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/lists/create",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"lists",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected list data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listId).to.equal(\"L1\");",
+							"    pm.expect(responseBody.listName).to.equal(\"Grocery list\");",
+							"    pm.expect(responseBody.isShared).to.equal(false);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/lists/list/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"lists",
+						"list",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "L1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected updated list data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.listName).to.equal(\"Shopping list\");",
+							"    pm.expect(responseBody.isShared).to.equal(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"isShared\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/lists/list/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"lists",
+						"list",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "L2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body matches expected message for list deletion\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const responseBody = pm.response.json();",
+							"",
+							"    pm.expect(responseBody.message).to.eql(\"List deleted successfully\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/lists/list/:id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"lists",
+						"list",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "L3"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
