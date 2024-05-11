@@ -1,5 +1,5 @@
 {
-  "name": "todo-template",
+  "name": "todo-vanilla",
   "version": "1.0.0",
   "description": "Sandbox Todo App API",
   "keywords": [
@@ -13,11 +13,11 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/teo-lin/todo-template"
+    "url": "https://github.com/teo-lin/todo-vanilla"
   },
   "config": {
     "port": "3333",
-    "framework": "vanilla"
+    "framework": "none"
   },
   "scripts": {
     "start": "node src/app.js",
