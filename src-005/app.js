@@ -294,7 +294,7 @@ DatabaseService.init(PATH)
 // ROUTES
 
 // SERVER
-const PORT = 3333
+const PORT = 3000
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`)
   const { pathname } = url
