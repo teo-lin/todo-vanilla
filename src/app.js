@@ -290,16 +290,13 @@ DatabaseService.init(PATH)
 // ROUTER
 
 // MIDDLEWARE
-function addApiPrefix(req, res, next) {
-  req.url = `/api${req.url}`
-  next()
-}
 
 // ROUTES
 
 // SERVER
 const PORT = 3000
-const server = http.createServer((req, res) => {
+const server = http.createServer(
+  (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`)
   const [_, api, entity, action, id, operation] = url.pathname.split('/')
   if (api !== 'api') return routeNotFound(res)
