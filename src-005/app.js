@@ -7,9 +7,9 @@ class UserController {
   static createUser(req, res) {
     try {
       const body = JSON.parse(req.body)
-      const newUser = UserService.createUser(body)
+      const user = UserService.createUser(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(newUser))
+      res.end(JSON.stringify(user))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -32,9 +32,9 @@ class UserController {
   }
   static updateUser(req, res) {
     try {
-      const updatedUser = UserService.updateUser(req.params.id, JSON.parse(req.body))
+      const user = UserService.updateUser(req.params.id, JSON.parse(req.body))
       res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(updatedUser))
+      res.end(JSON.stringify(user))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -55,9 +55,9 @@ class TaskController {
   static createTask(req, res) {
     try {
       const body = JSON.parse(req.body)
-      const newTask = TaskService.createTask(body)
+      const task = TaskService.createTask(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(newTask))
+      res.end(JSON.stringify(task))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -80,9 +80,9 @@ class TaskController {
   }
   static updateTask(req, res) {
     try {
-      const updatedTask = TaskService.updateTask(req.params.id, JSON.parse(req.body))
+      const task = TaskService.updateTask(req.params.id, JSON.parse(req.body))
       res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(updatedTask))
+      res.end(JSON.stringify(task))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -119,9 +119,9 @@ class ListController {
   static createList(req, res) {
     try {
       const body = JSON.parse(req.body)
-      const newList = ListService.createList(body)
+      const list = ListService.createList(body)
       res.writeHead(201, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(newList))
+      res.end(JSON.stringify(list))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -144,9 +144,9 @@ class ListController {
   }
   static updateList(req, res) {
     try {
-      const updatedList = ListService.updateList(req.params.id, JSON.parse(req.body))
+      const list = ListService.updateList(req.params.id, JSON.parse(req.body))
       res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify(updatedList))
+      res.end(JSON.stringify(list))
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ message: error.message }))
@@ -169,12 +169,12 @@ class UserService {
   static createUser(userData) {
     const data = DatabaseService.getData()
     const nextUserId = `U${1 + Number(data.lastUserId.slice(1))}`
-    const newUser = { userId: nextUserId, ...userData }
-    data.users.push(newUser)
+    const user = { userId: nextUserId, ...userData }
+    data.users.push(user)
     data.lastUserId = nextUserId
     DatabaseService.setData(data)
-    delete newUser.password
-    return newUser
+    delete user.password
+    return user
   }
   static retrieveUser(userId) {
     const data = DatabaseService.getData()
@@ -202,11 +202,11 @@ class ListService {
   static createList(listData) {
     const data = DatabaseService.getData()
     const nextListId = `L${1 + Number(data.lastListId.slice(1))}`
-    const newList = { listId: nextListId, ...listData }
-    data.lists.push(newList)
+    const list = { listId: nextListId, ...listData }
+    data.lists.push(list)
     data.lastListId = nextListId
     DatabaseService.setData(data)
-    return newList
+    return list
   }
   static retrieveList(listId) {
     const data = DatabaseService.getData()
@@ -230,11 +230,11 @@ class TaskService {
   static createTask(taskData) {
     const data = DatabaseService.getData()
     const nextTaskId = `T${1 + Number(data.lastTaskId.slice(1))}`
-    const newTask = { taskId: nextTaskId, ...taskData }
-    data.tasks.push(newTask)
+    const task = { taskId: nextTaskId, ...taskData }
+    data.tasks.push(task)
     data.lastTaskId = nextTaskId
     DatabaseService.setData(data)
-    return newTask
+    return task
   }
   static retrieveTask(taskId) {
     const data = DatabaseService.getData()
@@ -295,8 +295,7 @@ DatabaseService.init(PATH)
 
 // SERVER
 const PORT = 3000
-const server = http.createServer(
-  (req, res) => {
+const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`)
   const [_, api, entity, action, id, operation] = url.pathname.split('/')
   if (api !== 'api') return routeNotFound(res)
