@@ -4,14 +4,17 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon:app",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v20.14.0/bin/nodemon",
-      "program": "${workspaceFolder}/src/app.js",
+      "name": "vanilla:app",
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": [
+        "--inspect-brk=9229", // Use --inspect-brk to break at the first line
+        "--delay",
+        "2", // Optional: Add a delay to prevent nodemon from restarting too quickly
+        "src/app.ts" // Path to your TypeScript entry file
+      ],
       "restart": true,
-      "console": "internalConsole",
-      "env": {
-        "NODE_ENV": "development"
-      }
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

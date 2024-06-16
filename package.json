@@ -21,7 +21,7 @@
   },
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "node src/app.js",
+    "start": "node build/app.js",
     "start:debug": "nodemon --exec 'node --inspect -r ts-node/register' src/app.ts",
     "start:build": "node build/app.js",
     "test": "",
@@ -42,5 +42,7 @@
     "reset": "open --background -a Docker && rm -rf node_modules build dist out coverage package-lock.json && docker stop todo-container && docker rm todo-container || true && docker rmi todo-app || true"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^20.14.2"
+  }
 }
