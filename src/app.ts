@@ -4,6 +4,8 @@ import TaskController from './modules/task/task.controller';
 import ListController from './modules/list/list.controller';
 import DatabaseService from './modules/database/database.service';
 
+const startTime = process.hrtime();
+
 // DATABASE
 DatabaseService.init();
 
@@ -49,9 +51,7 @@ const server = http.createServer((req, res) => {
     case url?.startsWith(`/api/tasks/task/`) && method === 'DELETE':
       TaskController.deleteTask(req, res);
       break;
-    case url?.startsWith(`/api/tasks/task/`) &&
-      url?.endsWith('/complete') &&
-      method === 'PATCH':
+    case url?.startsWith(`/api/tasks/task/`) && url?.endsWith('/complete') && method === 'PATCH':
       TaskController.completeTask(req, res);
       break;
 
@@ -81,6 +81,9 @@ server.on('clientError', (err, socket) => {
   console.error('Client error:', err);
   socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
+
 server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  const endTime = process.hrtime(startTime);
+  const startupTime = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(3);
+  console.log(`Server started in ${startupTime} ms on http://localhost:${PORT}`);
 });
