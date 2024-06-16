@@ -17,52 +17,54 @@ DatabaseService.init();
 const PORT = 3000;
 const server = http.createServer((req, res) => {
   const { method, url } = req;
-  const prefix = '/api';
 
   switch (true) {
-    case method === 'GET' && url === `${prefix}`:
+    case url === `/api` && method === 'GET':
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.end('Hello World!');
       break;
-    case method === 'GET' && url?.startsWith(`${prefix}/users/user/`):
-      UserController.retrieveUser(req, res);
-      break;
-    case method === 'POST' && url === `${prefix}/users/register`:
+
+    case url === `/api/users/register` && method === 'POST':
       UserController.createUser(req, res);
       break;
-    case method === 'PUT' && url?.startsWith(`${prefix}/users/user/`):
+    case url?.startsWith(`/api/users/user/`) && method === 'GET':
+      UserController.retrieveUser(req, res);
+      break;
+    case url?.startsWith(`/api/users/user/`) && method === 'PUT':
       UserController.updateUser(req, res);
       break;
-    case method === 'DELETE' && url?.startsWith(`${prefix}/users/user/`):
+    case url?.startsWith(`/api/users/user/`) && method === 'DELETE':
       UserController.deleteUser(req, res);
       break;
-    case method === 'POST' && url === `${prefix}/tasks/create`:
+
+    case url === `/api/tasks/create` && method === 'POST':
       TaskController.createTask(req, res);
       break;
-    case method === 'GET' && url?.startsWith(`${prefix}/tasks/task/`):
+    case url?.startsWith(`/api/tasks/task/`) && method === 'GET':
       TaskController.retrieveTask(req, res);
       break;
-    case method === 'PUT' && url?.startsWith(`${prefix}/tasks/task/`):
+    case url?.startsWith(`/api/tasks/task/`) && method === 'PUT':
       TaskController.updateTask(req, res);
       break;
-    case method === 'DELETE' && url?.startsWith(`${prefix}/tasks/task/`):
+    case url?.startsWith(`/api/tasks/task/`) && method === 'DELETE':
       TaskController.deleteTask(req, res);
       break;
-    case method === 'PATCH' &&
-      url?.startsWith(`${prefix}/tasks/task/`) &&
-      url?.endsWith('/complete'):
+    case url?.startsWith(`/api/tasks/task/`) &&
+      url?.endsWith('/complete') &&
+      method === 'PATCH':
       TaskController.completeTask(req, res);
       break;
-    case method === 'POST' && url === `${prefix}/lists/create`:
+
+    case url === `/api/lists/create` && method === 'POST':
       ListController.createList(req, res);
       break;
-    case method === 'GET' && url?.startsWith(`${prefix}/lists/list/`):
+    case url?.startsWith(`/api/lists/list/`) && method === 'GET':
       ListController.retrieveList(req, res);
       break;
-    case method === 'PUT' && url?.startsWith(`${prefix}/lists/list/`):
+    case url?.startsWith(`/api/lists/list/`) && method === 'PUT':
       ListController.updateList(req, res);
       break;
-    case method === 'DELETE' && url?.startsWith(`${prefix}/lists/list/`):
+    case url?.startsWith(`/api/lists/list/`) && method === 'DELETE':
       ListController.deleteList(req, res);
       break;
     default:
